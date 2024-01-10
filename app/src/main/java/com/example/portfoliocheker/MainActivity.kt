@@ -41,6 +41,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.portfoliocheker.ui.theme.PortfolioChekerTheme
 import kotlinx.coroutines.launch
@@ -50,7 +52,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            MainView(navController)
+            NavHost(navController = navController, startDestination = "Main") {
+                composable("Main") {MainView(navController) }
+                composable("Portfolio") { PortfolioView(navController) }
+            }
+
 
 
 
