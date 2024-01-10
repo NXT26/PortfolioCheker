@@ -1,111 +1,98 @@
 package com.example.portfoliocheker
 
 import android.graphics.Color
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.portfoliocheker.ui.theme.Blue
 import com.example.portfoliocheker.ui.theme.Orange
 import com.example.portfoliocheker.ui.theme.White
-data class Portfolio(
-    val name: String,
-    val price: Double,
-    val change: Double,
-    val income: Double
-)
+import kotlin.system.exitProcess
+
 
 @Composable
-fun MainView(){
-    var portfolios by remember { mutableStateOf<List<Portfolio>>(emptyList()) }
-    var newPortfolioName by remember { mutableStateOf("") }
-    Column {
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 10.dp, start = 5.dp, end = 5.dp),
+fun MainView(
+    navController: NavController
+){
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
 
-            ) {
-            Button(onClick = {
-                if (newPortfolioName.isNotBlank()) {
-                    portfolios = portfolios + Portfolio(
-                        name = newPortfolioName,
-                        price = 0.0,
-                        change = 0.0,
-                        income = 0.0
-                    )
-                    newPortfolioName = ""}
-            },
-                modifier = Modifier.fillMaxWidth(0.5f)) {
+        ProfileImage()
+        Spacer(modifier = Modifier.height(16.dp))
 
-                Text(text = "Добавить портфель")
+        Text(text = "Total balance: ${getTotalBalance()}")
+        Spacer(modifier = Modifier.height(16.dp))
 
-            }
-            Button(onClick = { /*TODO*/ },
-                modifier = Modifier.fillMaxWidth()) {
-//            Icon(painter = R.drawable.ic_add_foreground, contentDescription = "icon")
+        GoMainScreenButton(navController)
+        Spacer(modifier = Modifier.weight(1f))
 
-                Text(text = "Добавить бумагу")
-
-            }
-        }
-        TabRow(selectedTabIndex = 4,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(5.dp)
-
-            ) {
-            Text(text = "Название", modifier = Modifier.background(Orange), color = White)
-            Text(text = "Стоимость", modifier = Modifier.background(Orange))
-            Text(text = "Изменение", modifier = Modifier.background(Orange))
-            Text(text = "Доходность", modifier = Modifier.background(Orange))
-        }
-        LazyRow {
-            items(portfolios) { portfolio ->
-                PortfolioCard(portfolio = portfolio)
-            }
-        }
     }
 
+
+}
+
+fun getTotalBalance(): Int {
+    return 100
 }
 @Composable
-fun PortfolioCard(portfolio: Portfolio) {
-    Card(
+fun ProfileImage() {
+    val borderWidth = 4.dp
+    Image(
+        painter = painterResource(R.drawable.img),
+        contentDescription = "portfolio",
+
+        contentScale = ContentScale.FillBounds,
         modifier = Modifier
-            .padding(8.dp)
-            .size(150.dp, 200.dp),
+            .size(150.dp)
+            .border(
+                BorderStroke(borderWidth, androidx.compose.ui.graphics.Color.Green),
+                RectangleShape
+            )
+            .padding(borderWidth)
+            .clip(RectangleShape)
+    )
+}
+
+@Composable
+fun GoMainScreenButton(navController: NavController) {
+    Button(
+        onClick = { navController.navigate("portfolio") },
+        modifier = Modifier.fillMaxWidth()
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp),
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(text = portfolio.name, textAlign = TextAlign.Center, modifier = Modifier.padding(bottom = 8.dp))
-            Text(text = "Стоимость: ${portfolio.price}", textAlign = TextAlign.Center, modifier = Modifier.padding(bottom = 8.dp))
-            Text(text = "Изменение: ${portfolio.change}", textAlign = TextAlign.Center, modifier = Modifier.padding(bottom = 8.dp))
-            Text(text = "Доход: ${portfolio.income}", textAlign = TextAlign.Center)
-        }
+        Text(text = "Перейти в портфель")
     }
 }
 
