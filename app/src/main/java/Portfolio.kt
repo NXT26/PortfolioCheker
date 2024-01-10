@@ -1,4 +1,5 @@
 data class Portfolio(
-    val namePortfolio: String, val pricePortfolio: Double,
-    val portfolioPercentageChange: Double, val portfolioIncome: Double
+    val price: Double,
+    val count: Int,
+    val name: String
 )

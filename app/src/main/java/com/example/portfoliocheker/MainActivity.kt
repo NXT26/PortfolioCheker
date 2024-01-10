@@ -55,6 +55,8 @@ class MainActivity : ComponentActivity() {
             NavHost(navController = navController, startDestination = "Main") {
                 composable("Main") {MainView(navController) }
                 composable("Portfolio") { PortfolioView(navController) }
+                composable("Shares") { AddSharesView("","","",navController) }
+
             }
 
 

@@ -67,15 +67,15 @@ fun PortfolioView(
         ) {
             Icon(
                 imageVector = Icons.Default.Delete,
-                contentDescription = "Delete Investments",
+                contentDescription = "Delete Shares",
                 modifier = Modifier.clickable { /*//TO_DO*/ }
             )
 
             Icon(
                 imageVector = Icons.Default.Add,
-                contentDescription = "Add Investments",
+                contentDescription = "Add Shares",
                 modifier = Modifier.clickable {
-                    //TO_DO
+                    navController.navigate("Shares")
                 }
             )
         }
