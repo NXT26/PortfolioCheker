@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import kotlin.math.round
+import kotlin.random.Random
 
 @Composable
 fun PortfolioView(
@@ -57,7 +58,8 @@ fun PortfolioView(
 
 
         val total = getTotalBalance(portfolios).toDouble()
-        val invested = round( getTotalBalance(portfolios).toDouble() * 0.9)
+        val randomDouble = Random.nextDouble(0.1, 2.0)
+        val invested = round( getTotalBalance(portfolios).toDouble() * randomDouble)
         val profit = total - invested
         val profitColor = if (profit >= 0) Color.Green else Color.Red
 
@@ -171,7 +173,6 @@ fun StockStat(label: String, value: Double, color: Color? = null, showSign: Bool
 }
 @Composable
 fun ShowBlocks(portfolios: MutableList<Portfolio>, navController: NavController) {
-    //Spacer(modifier = Modifier.height(8.dp))
 
     LazyColumn(
         modifier = Modifier.fillMaxWidth()
