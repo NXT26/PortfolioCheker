@@ -10,7 +10,7 @@ import androidx.navigation.compose.rememberNavController
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        var portfolios = mutableListOf<Portfolio>()
+        val portfolios = mutableListOf<Portfolio>()
         super.onCreate(savedInstanceState)
         setContent {
 
