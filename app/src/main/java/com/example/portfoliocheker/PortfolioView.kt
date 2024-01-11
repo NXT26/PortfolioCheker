@@ -3,7 +3,6 @@ package com.example.portfoliocheker
 import Portfolio
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +18,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -28,7 +26,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -75,7 +72,7 @@ fun PortfolioView(
             Icon(
                 imageVector = Icons.Default.Delete,
                 contentDescription = "Delete Shares",
-                modifier = Modifier.clickable { DeleteAllPortfolio(portfolios,navController)}
+                modifier = Modifier.clickable { deleteAllPortfolio(portfolios,navController)}
             )
 
             Icon(
@@ -226,7 +223,7 @@ fun BlockToCompose(block: Portfolio,navController: NavController) {
     }
 }
 
-fun DeleteAllPortfolio(portfolios: MutableList<Portfolio>,navController: NavController){
+fun deleteAllPortfolio(portfolios: MutableList<Portfolio>,navController: NavController){
     portfolios.clear()
     println("очистил$portfolios")
     navController.navigate("Portfolio")

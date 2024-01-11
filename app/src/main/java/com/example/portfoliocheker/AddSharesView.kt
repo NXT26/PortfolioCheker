@@ -12,7 +12,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -70,11 +69,11 @@ fun AddSharesView(
             onValueChange = { it ->
                 SharesPrice = it
 
-                try {
+                priceIsValid = try {
                     SharesPrice?.toDouble()
-                    priceIsValid = true
+                    true
                 } catch (e: NumberFormatException) {
-                    priceIsValid = false
+                    false
                 }
             },
             colors = TextFieldDefaults.colors(if (priceIsValid) Color.Black else Color.Red),
@@ -94,11 +93,11 @@ fun AddSharesView(
             onValueChange = {
                 SharesQuantity = it
 
-                try {
+                quantityIsValid = try {
                     SharesQuantity?.toInt()
-                    quantityIsValid = true
+                    true
                 } catch (e: NumberFormatException) {
-                    quantityIsValid = false
+                    false
                 }
             },
             label = { Text("Количество акций") },
@@ -117,9 +116,6 @@ fun AddSharesView(
             onClick = {
                 if (nameIsValid && priceIsValid && quantityIsValid) {
                     insertInvestment(SharesName, SharesPrice, SharesQuantity, portfolios)
-                    println("Name:${SharesName}")
-                    println("Proce:${SharesPrice}")
-                    println("Quant:${SharesQuantity}")
 
                     navController.navigate("Portfolio")
                 }
@@ -169,7 +165,6 @@ fun insertInvestment(
         count = SharesQuantity!!.toInt(),
     )
     portfolios.add(portfolio)
-    println("AAAAAA:$portfolios")
 }
 
 fun onTradeDelete(): String {
