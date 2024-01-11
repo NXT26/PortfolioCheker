@@ -40,6 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import kotlin.math.round
 
 @Composable
 fun PortfolioView(
@@ -55,8 +56,8 @@ fun PortfolioView(
         ShowPortfolioNameAndImage(navController)
 
 
-        val total = 10.0
-        val invested = 100.0
+        val total = getTotalBalance(portfolios).toDouble()
+        val invested = round( getTotalBalance(portfolios).toDouble() * 0.9)
         val profit = total - invested
         val profitColor = if (profit >= 0) Color.Green else Color.Red
 
@@ -72,7 +73,7 @@ fun PortfolioView(
             Icon(
                 imageVector = Icons.Default.Delete,
                 contentDescription = "Delete Shares",
-                modifier = Modifier.clickable { DeleteAllPortfolio(portfolios)}
+                modifier = Modifier.clickable { DeleteAllPortfolio(portfolios,navController)}
             )
 
             Icon(
@@ -82,8 +83,10 @@ fun PortfolioView(
                     navController.navigate("Shares")
                 }
             )
-            ShowBlocks(portfolios)
+
         }
+
+        ShowBlocks(portfolios,navController)
 
 
 
@@ -137,7 +140,6 @@ fun ShowPortfolioInfo(invested: Double, total: Double, profit: Double, profitCol
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 16.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -168,30 +170,63 @@ fun StockStat(label: String, value: Double, color: Color? = null, showSign: Bool
         }
 }
 @Composable
-fun ShowBlocks(portfolios: MutableList<Portfolio>) {
-    Spacer(modifier = Modifier.height(16.dp))
+fun ShowBlocks(portfolios: MutableList<Portfolio>, navController: NavController) {
+    //Spacer(modifier = Modifier.height(8.dp))
 
     LazyColumn(
-        modifier = Modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(horizontal = 24.dp)
+        modifier = Modifier.fillMaxWidth()
+            .padding(16.dp),
+        contentPadding = PaddingValues(horizontal = 8.dp)
     ) {
         items(portfolios) { block ->
-            BlockToCompose(block)
+            BlockToCompose(block,navController)
         }
     }
 }
 
 @Composable
-fun BlockToCompose(block: Portfolio) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(block.name)
-        Text(block.count.toString())
+fun BlockToCompose(block: Portfolio,navController: NavController) {
+
+    Box(
+        modifier = Modifier
+            .border(
+                BorderStroke(2.dp, Color.Green),
+                shape = RoundedCornerShape(16.dp)
+            )
+            .padding(10.dp)
+            .clickable {
+                navController.navigate("Shares")
+            }
+    ){
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+
+            ) {
+
+                    Text("Акция:${block.name}")
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+
+                        Text("Количество:${block.count}")
+                        Text("Цена:${block.price}")
+                    }
+
+
+            }
+        }
     }
 }
 
-fun DeleteAllPortfolio(portfolios: MutableList<Portfolio>){
+fun DeleteAllPortfolio(portfolios: MutableList<Portfolio>,navController: NavController){
     portfolios.clear()
     println("очистил$portfolios")
+    navController.navigate("Portfolio")
 }

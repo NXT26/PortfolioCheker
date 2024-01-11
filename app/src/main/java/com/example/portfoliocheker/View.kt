@@ -46,21 +46,25 @@ fun MainView(
         ProfileImage()
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(text = "Баланс портфеля: ${getTotalBalance()}")
+        Text(text = "Баланс портфеля: ${getTotalBalance(portfolios)}")
         Spacer(modifier = Modifier.height(16.dp))
 
         GoMainScreenButton(navController)
         Spacer(modifier = Modifier.weight(1f))
 
-       // ShowBlocks(composeBlocks)
+
 
     }
 
 
 }
 
-fun getTotalBalance(): Int {
-    return 100
+fun getTotalBalance(portfolios: MutableList<Portfolio>): Int {
+    var totalBalance = 0
+    for (block in portfolios){
+        totalBalance+= (block.count*block.price).toInt()
+    }
+    return totalBalance
 }
 @Composable
 fun ProfileImage() {
