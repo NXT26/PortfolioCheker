@@ -23,6 +23,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import kotlin.math.round
+import kotlin.random.Random
 
 
 @Composable
@@ -30,6 +32,7 @@ fun MainView(
     navController: NavController,
     portfolios: MutableList<Portfolio>,
 ){
+    val randomDouble = Random.nextDouble(0.8, 1.2)
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -41,7 +44,7 @@ fun MainView(
         ProfileImage()
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(text = "Баланс портфеля: ${getTotalBalance(portfolios)}")
+        Text(text = "Баланс портфеля: ${round( getTotalBalance(portfolios).toDouble() * randomDouble)}")
         Spacer(modifier = Modifier.height(16.dp))
 
         GoMainScreenButton(navController)

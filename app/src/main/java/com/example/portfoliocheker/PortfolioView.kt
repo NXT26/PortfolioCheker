@@ -54,9 +54,9 @@ fun PortfolioView(
         ShowPortfolioNameAndImage(navController)
 
 
-        val total = getTotalBalance(portfolios).toDouble()
-        val randomDouble = Random.nextDouble(0.1, 2.0)
-        val invested = round( getTotalBalance(portfolios).toDouble() * randomDouble)
+        val randomDouble = Random.nextDouble(0.8, 1.2)
+        val invested =  getTotalBalance(portfolios).toDouble()
+        val total = round( getTotalBalance(portfolios).toDouble() * randomDouble)
         val profit = total - invested
         val profitColor = if (profit >= 0) Color.Green else Color.Red
 
