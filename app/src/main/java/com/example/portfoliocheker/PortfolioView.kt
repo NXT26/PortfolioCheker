@@ -1,5 +1,6 @@
 package com.example.portfoliocheker
 
+import Portfolio
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -26,6 +28,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,6 +44,7 @@ import androidx.navigation.NavController
 @Composable
 fun PortfolioView(
     navController: NavController,
+    portfolios: MutableList<Portfolio>,
 ) {
     Column(
         modifier = Modifier
@@ -68,7 +72,7 @@ fun PortfolioView(
             Icon(
                 imageVector = Icons.Default.Delete,
                 contentDescription = "Delete Shares",
-                modifier = Modifier.clickable { /*//TO_DO*/ }
+                modifier = Modifier.clickable { DeleteAllPortfolio(portfolios)}
             )
 
             Icon(
@@ -78,7 +82,9 @@ fun PortfolioView(
                     navController.navigate("Shares")
                 }
             )
+            ShowBlocks(portfolios)
         }
+
 
 
     }
@@ -113,6 +119,7 @@ fun ShowPortfolioNameAndImage(navController: NavController) {
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(50.dp)
             )
+
 
     }
 }
@@ -159,4 +166,32 @@ fun StockStat(label: String, value: Double, color: Color? = null, showSign: Bool
 
             )
         }
+}
+@Composable
+fun ShowBlocks(portfolios: MutableList<Portfolio>) {
+    Spacer(modifier = Modifier.height(16.dp))
+
+    LazyColumn(
+        modifier = Modifier.fillMaxWidth(),
+        contentPadding = PaddingValues(horizontal = 24.dp)
+    ) {
+        items(portfolios) { block ->
+            BlockToCompose(block)
+        }
+    }
+}
+
+@Composable
+fun BlockToCompose(block: Portfolio) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(block.name)
+        Text(block.count.toString())
+    }
+}
+
+fun DeleteAllPortfolio(portfolios: MutableList<Portfolio>){
+    portfolios.clear()
+    println("очистил$portfolios")
 }

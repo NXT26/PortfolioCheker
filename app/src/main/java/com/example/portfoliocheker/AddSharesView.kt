@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,6 +31,7 @@ fun AddSharesView(
     SharesQuantity: String? = null,
 
     navController: NavController,
+    portfolios: MutableList<Portfolio>,
 ){
     var SharesName by remember { mutableStateOf(SharesName) }
     var SharesPrice by remember { mutableStateOf(SharesPrice) }
@@ -114,7 +116,11 @@ fun AddSharesView(
         Button(
             onClick = {
                 if (nameIsValid && priceIsValid && quantityIsValid) {
-                    insertInvestment(SharesName, SharesPrice, SharesQuantity)
+                    insertInvestment(SharesName, SharesPrice, SharesQuantity, portfolios)
+                    println("Name:${SharesName}")
+                    println("Proce:${SharesPrice}")
+                    println("Quant:${SharesQuantity}")
+
                     navController.navigate("Portfolio")
                 }
             },
@@ -155,12 +161,15 @@ fun insertInvestment(
     SharesName: String?,
     SharesPrice: String?,
     SharesQuantity: String?,
+    portfolios:MutableList<Portfolio>
 ) {
     val portfolio = Portfolio(
         name = SharesName.toString(),
         price = SharesPrice!!.toDouble(),
         count = SharesQuantity!!.toInt(),
     )
+    portfolios.add(portfolio)
+    println("AAAAAA:$portfolios")
 }
 
 fun onTradeDelete(): String {
